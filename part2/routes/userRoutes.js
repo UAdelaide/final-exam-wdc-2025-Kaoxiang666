@@ -55,4 +55,18 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// GET /api/users/dogs — return dogs owned by the current user
+router.get('/dogs', async (req, res, next) => {
+    const ownerId = req.session.userId;
+    try {
+      const db = req.app.get('db');
+      const [rows] = await db.execute(
+        'SELECT dog_id, name FROM Dogs WHERE owner_id = ?',
+        [ownerId]
+      );
+      res.json(rows);
+    } catch (err) {
+      next(err);
+    }
+
 module.exports = router;

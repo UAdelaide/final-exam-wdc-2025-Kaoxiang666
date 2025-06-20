@@ -58,13 +58,13 @@
     <marquee>Home | Walks | Profile | Contact Us</marquee>
     </div>
 
-    + <section class="mt-5 px-4">
-    +   <h2>All Dogs in Database</h2>
-    +   <table id="dogsTable" class="table table-striped mt-3">
-    +     <thead>…</thead>
-    +     <tbody></tbody>
-    +   </table>
-    + </section>
+     <section class="mt-5 px-4">
+       <h2>All Dogs in Database</h2>
+       <table id="dogsTable" class="table table-striped mt-3">
+         <thead>…</thead>
+         <tbody></tbody>
+       </table>
+     </section>
 
   <script>
     const { createApp } = Vue;
@@ -79,6 +79,30 @@
       },
       mounted() { this.fetchDog(); }
     }).mount("#app");
-  </script>
+    + </script>
++ <script>
++   document.addEventListener('DOMContentLoaded', async () => {
++     const tbody = document.querySelector('#dogsTable tbody');
++     try {
++       const dogsRes = await fetch('/api/dogs');
++       const dogs    = await dogsRes.json();
++       for (const { dog_name, size, owner_username } of dogs) {
++         const photoRes = await fetch('https://dog.ceo/api/breeds/image/random');
++         const { message: photoUrl } = await photoRes.json();
++         const tr = document.createElement('tr');
++         tr.innerHTML = `
++           <td><img src="${photoUrl}" alt="Photo of ${dog_name}"
++                    style="height:80px; object-fit:cover"></td>
++           <td>${dog_name}</td>
++           <td>${size}</td>
++           <td>${owner_username}</td>
++         `;
++         tbody.appendChild(tr);
++       }
++     } catch (err) {
++       console.error(err);
++     }
++   });
++ </script>
 </body>
 </html>

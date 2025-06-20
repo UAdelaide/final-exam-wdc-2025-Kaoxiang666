@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/db');
 
+// GET /api/users/me — return current logged-in user
+router.get('/me', (req, res) => {
+    const uid = req.session.userId;
+    if (!uid) {
+      return res.status(401).json({ error: 'Not logged in' });
+    }
+    res.json({ user_id: uid, role: req.session.role });
+  });
+
 // GET all users (for admin/testing)
 router.get('/', async (req, res) => {
   try {

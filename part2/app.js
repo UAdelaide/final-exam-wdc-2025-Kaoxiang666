@@ -7,11 +7,10 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-+app.use(express.json());
-+app.use(express.urlencoded({ extended: false }));
-+// —— 新增：表单解析 & 会话支持 ——
-+app.use(session({
-secret: process.env.SESSION_SECRET,
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));

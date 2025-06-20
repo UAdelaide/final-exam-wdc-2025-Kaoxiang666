@@ -56,6 +56,17 @@
           }
         }
 
+        +      // NEW: fetch current user’s ID from server
++      async function getCurrentUser() {
++        try {
++          const res  = await fetch('/api/users/me');
++          const data = await res.json();
++          currentUserId.value = data.user_id;
++        } catch (err) {
++          console.error('Unable to get current user', err);
++        }
++      }
+
         async function applyToWalk(requestId) {
           try {
             const res = await fetch(`/api/walks/${requestId}/apply`, {

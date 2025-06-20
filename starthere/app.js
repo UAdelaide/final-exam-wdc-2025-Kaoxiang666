@@ -58,7 +58,6 @@ let db;
   }
 })();
 
-// —— 新增 /api/dogs 路由 ——
 app.get('/api/dogs', async (req, res) => {
   try {
     const [dogs] = await db.query(`

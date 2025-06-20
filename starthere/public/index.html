@@ -56,7 +56,15 @@
     <p>Breed: Golden Retriever</p>
     <button @click="fetchDog">Click To Fetch New Dog</button>
     <marquee>Home | Walks | Profile | Contact Us</marquee>
-  </div>
+    </div>
+
+    + <section class="mt-5 px-4">
+    +   <h2>All Dogs in Database</h2>
+    +   <table id="dogsTable" class="table table-striped mt-3">
+    +     <thead>…</thead>
+    +     <tbody></tbody>
+    +   </table>
+    + </section>
 
   <script>
     const { createApp } = Vue;

@@ -21,4 +21,15 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+// GET /logout — end session, clear cookie, redirect to login
+router.get('/logout', (req, res, next) => {
+      req.session.destroy(err => {
+        if (err) return next(err);
+        // Clear the session cookie
+        res.clearCookie('connect.sid');
+        // Redirect back to login form
+        res.redirect('/');
+      });
+    });
+
 module.exports = router;

@@ -80,29 +80,30 @@
       mounted() { this.fetchDog(); }
     }).mount("#app");
     + </script>
-+ <script>
-+   document.addEventListener('DOMContentLoaded', async () => {
-+     const tbody = document.querySelector('#dogsTable tbody');
-+     try {
-+       const dogsRes = await fetch('/api/dogs');
-+       const dogs    = await dogsRes.json();
-+       for (const { dog_name, size, owner_username } of dogs) {
-+         const photoRes = await fetch('https://dog.ceo/api/breeds/image/random');
-+         const { message: photoUrl } = await photoRes.json();
-+         const tr = document.createElement('tr');
-+         tr.innerHTML = `
-+           <td><img src="${photoUrl}" alt="Photo of ${dog_name}"
-+                    style="height:80px; object-fit:cover"></td>
-+           <td>${dog_name}</td>
-+           <td>${size}</td>
-+           <td>${owner_username}</td>
-+         `;
-+         tbody.appendChild(tr);
-+       }
-+     } catch (err) {
-+       console.error(err);
-+     }
-+   });
-+ </script>
+
+ <script>
+   document.addEventListener('DOMContentLoaded', async () => {
+     const tbody = document.querySelector('#dogsTable tbody');
+     try {
+       const dogsRes = await fetch('/api/dogs');
+       const dogs    = await dogsRes.json();
+       for (const { dog_name, size, owner_username } of dogs) {
+         const photoRes = await fetch('https://dog.ceo/api/breeds/image/random');
+         const { message: photoUrl } = await photoRes.json();
+         const tr = document.createElement('tr');
+         tr.innerHTML = `
+           <td><img src="${photoUrl}" alt="Photo of ${dog_name}"
+                    style="height:80px; object-fit:cover"></td>
+           <td>${dog_name}</td>
+           <td>${size}</td>
+           <td>${owner_username}</td>
+         `;
+         tbody.appendChild(tr);
+       }
+     } catch (err) {
+       console.error(err);
+     }
+   });
+ </script>
 </body>
 </html>

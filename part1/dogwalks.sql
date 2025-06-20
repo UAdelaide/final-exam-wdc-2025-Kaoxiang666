@@ -53,3 +53,78 @@ CREATE TABLE WalkRatings (
     FOREIGN KEY (owner_id) REFERENCES Users(user_id),
     CONSTRAINT unique_rating_per_walk UNIQUE (request_id)
 );
+
+
+-- 1. 插入用户（Users）
+INSERT INTO Users (username, email, password_hash, role) VALUES
+  ('alice123',   'alice@example.com', 'hashed123', 'owner'),
+  ('bobwalker',  'bob@example.com',   'hashed456', 'walker'),
+  ('carol123',   'carol@example.com', 'hashed789', 'owner'),
+  ('daveOwner',  'dave@example.com',  'hashed321', 'owner'),
+  ('frankWalker','frank@example.com','hashed654', 'walker');
+
+-- 2. 插入狗狗（Dogs），使用子查询查 owner_id
+INSERT INTO Dogs (owner_id, name, size) VALUES
+  (
+    (SELECT user_id FROM Users WHERE username = 'alice123'),
+    'Max',
+    'medium'
+  ),
+  (
+    (SELECT user_id FROM Users WHERE username = 'carol123'),
+    'Bella',
+    'small'
+  ),
+  (
+    (SELECT user_id FROM Users WHERE username = 'alice123'),
+    'Charlie',
+    'small'
+  ),
+  (
+    (SELECT user_id FROM Users WHERE username = 'carol123'),
+    'Luna',
+    'medium'
+  ),
+  (
+    (SELECT user_id FROM Users WHERE username = 'daveOwner'),
+    'Rocky',
+    'large'
+  );
+
+-- 3. 插入遛狗请求（WalkRequests），使用子查询查 dog_id
+INSERT INTO WalkRequests (dog_id, requested_time, duration_minutes, location, status) VALUES
+  (
+    (SELECT dog_id FROM Dogs WHERE name = 'Max'),
+    '2025-06-10 08:00:00',
+    30,
+    'Parklands',
+    'open'
+  ),
+  (
+    (SELECT dog_id FROM Dogs WHERE name = 'Bella'),
+    '2025-06-10 09:30:00',
+    45,
+    'Beachside Ave',
+    'accepted'
+  ),
+  (
+    (SELECT dog_id FROM Dogs WHERE name = 'Charlie'),
+    '2025-06-11 07:00:00',
+    60,
+    'Downtown',
+    'open'
+  ),
+  (
+    (SELECT dog_id FROM Dogs WHERE name = 'Luna'),
+    '2025-06-12 15:00:00',
+    20,
+    'Riverside',
+    'cancelled'
+  ),
+  (
+    (SELECT dog_id FROM Dogs WHERE name = 'Rocky'),
+    '2025-06-13 10:30:00',
+    45,
+    'Hillside',
+    'completed'
+  );

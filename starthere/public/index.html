@@ -50,5 +50,30 @@
 <body>
     <h1>Express</h1>
     <p>Welcome to Express</p>
+    <!-- 新增：Vue 根节点 -->
+  <div id="app">
+    <h1>🔥 DOG OF THE DAY 🔥</h1>
+    <img v-if="dogImage" :src="dogImage" />
+    <p>Name: Buddy the Good Boy!!!</p>
+    <p>Breed: Golden Retriever</p>
+    <button @click="fetchDog">Click To Fetch New Dog</button>
+    <marquee>Home | Walks | Profile | Contact Us</marquee>
+  </div>
+
+  <!-- 新增：Vue 实例脚本 -->
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() { return { dogImage: "" }; },
+      methods: {
+        fetchDog() {
+          fetch("https://dog.ceo/api/breeds/image/random")
+            .then(r => r.json())
+            .then(d => { this.dogImage = d.message; });
+        }
+      },
+      mounted() { this.fetchDog(); }
+    }).mount("#app");
+  </script>
 </body>
 </html>

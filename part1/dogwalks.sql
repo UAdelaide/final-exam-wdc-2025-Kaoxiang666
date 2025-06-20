@@ -54,8 +54,7 @@ CREATE TABLE WalkRatings (
     CONSTRAINT unique_rating_per_walk UNIQUE (request_id)
 );
 
-
--- 1. 插入用户（Users）
+USE DogWalkService;
 INSERT INTO Users (username, email, password_hash, role) VALUES
   ('alice123',   'alice@example.com', 'hashed123', 'owner'),
   ('bobwalker',  'bob@example.com',   'hashed456', 'walker'),
@@ -63,7 +62,6 @@ INSERT INTO Users (username, email, password_hash, role) VALUES
   ('daveOwner',  'dave@example.com',  'hashed321', 'owner'),
   ('frankWalker','frank@example.com','hashed654', 'walker');
 
--- 2. 插入狗狗（Dogs），使用子查询查 owner_id
 INSERT INTO Dogs (owner_id, name, size) VALUES
   (
     (SELECT user_id FROM Users WHERE username = 'alice123'),
